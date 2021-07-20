@@ -23,7 +23,7 @@ public class Application {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        System.out.printf("hello");
+        System.out.print("hello");
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
         job.setJarByClass(FlowBean.class);
@@ -36,8 +36,8 @@ public class Application {
         job.setOutputKeyClass(String.class);
         job.setOutputValueClass(FlowBean.class);
 
-        FileInputFormat.addInputPath((JobConf) job.getConfiguration(),new Path("C:\\Users\\43121\\Documents\\JavaWorkSpace\\gk-bd-711\\src\\main\\java\\source\\HTTP_20130313143750.dat"));
-        FileOutputFormat.setOutputPath((JobConf) job.getConfiguration(),new Path("C:\\Users\\43121\\Documents\\JavaWorkSpace\\gk-bd-711\\src\\main\\java\\source\\output.text"));
+        FileInputFormat.addInputPath((JobConf) job.getConfiguration(),new Path(".\\src\\main\\java\\source\\HTTP_20130313143750.dat"));
+        FileOutputFormat.setOutputPath((JobConf) job.getConfiguration(),new Path(".\\src\\main\\java\\source\\output.text"));
 
         System.exit(job.waitForCompletion(true) ? 0 :1);
     }
@@ -49,7 +49,7 @@ public class Application {
         try {
             System.out.println("以行为单位读取文件内容，一次读一整行：");
             reader = new BufferedReader(new FileReader(file));
-            String tempString = null;
+            String tempString;
             int line = 1;
             // 一次读入一行，直到读入null为文件结束
             while ((tempString = reader.readLine()) != null) {
@@ -63,10 +63,7 @@ public class Application {
             e.printStackTrace();
         } finally {
             if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                }
+                reader.close();
             }
         }
         return res;
