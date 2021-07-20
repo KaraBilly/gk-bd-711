@@ -2,6 +2,8 @@
 import javafx.scene.layout.FlowPane;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.FileOutputFormat;
 import org.apache.hadoop.mapred.JobConf;
@@ -24,49 +26,25 @@ public class Application {
 //            e.printStackTrace();
 //        }
         System.out.print("hello");
+
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
-        job.setJarByClass(FlowBean.class);
+        job.setJarByClass(Application.class);
         job.setMapperClass(FlowBeanMap.class);
         job.setReducerClass(FlowBeanReduce.class);
 
-        job.setMapOutputKeyClass(String.class);
-        job.setMapOutputKeyClass(FlowBean.class);
+        job.setMapOutputKeyClass(LongWritable.class);
+        job.setMapOutputValueClass(FlowBean.class);
 
-        job.setOutputKeyClass(String.class);
+        job.setOutputKeyClass(LongWritable.class);
         job.setOutputValueClass(FlowBean.class);
 
-        FileInputFormat.addInputPath((JobConf) job.getConfiguration(),new Path(".\\src\\main\\java\\source\\HTTP_20130313143750.dat"));
-        FileOutputFormat.setOutputPath((JobConf) job.getConfiguration(),new Path(".\\src\\main\\java\\source\\output.text"));
+        FileInputFormat.setInputPaths((JobConf) job.getConfiguration(),new Path(".\\src\\main\\java\\source\\HTTP_20130313143750.dat"));
+        FileOutputFormat.setOutputPath((JobConf) job.getConfiguration(),new Path(".\\src\\main\\java\\source\\output"));
 
         System.exit(job.waitForCompletion(true) ? 0 :1);
-    }
 
-    private static List<String> getData(String fileName) throws IOException{
-        List<String> res = new ArrayList<>();
-        File file = new File(fileName);
-        BufferedReader reader = null;
-        try {
-            System.out.println("以行为单位读取文件内容，一次读一整行：");
-            reader = new BufferedReader(new FileReader(file));
-            String tempString;
-            int line = 1;
-            // 一次读入一行，直到读入null为文件结束
-            while ((tempString = reader.readLine()) != null) {
-                // 显示行号
-                //System.out.println("line " + line + ": " + tempString);
-                res.add(tempString);
-                line++;
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-        return res;
+        System.out.print("world");
     }
 
 }

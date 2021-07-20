@@ -7,7 +7,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 // 1 实现writable接口
-public class FlowBean extends IntWritable implements Writable {
+public class FlowBean implements Writable {
     public long getUpFlow() {
         return upFlow;
     }
@@ -46,7 +46,7 @@ public class FlowBean extends IntWritable implements Writable {
     public void accumulate(long upFlow,long downFlow){
         this.upFlow += upFlow;
         this.downFlow += downFlow;
-        this.sumFlow = upFlow + downFlow;
+        this.sumFlow = this.upFlow + this.downFlow;
     }
     /**
      * 序列化
